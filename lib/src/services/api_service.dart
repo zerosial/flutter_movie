@@ -4,8 +4,7 @@ import 'package:flutter_movie/src/models/movie_model.dart';
 import 'package:http/http.dart' as http;
 
 class MovieApiService {
-  static const String baseUrl =
-      "https://movies-api.nomadcoders.workers.dev"; // 실제 API URL로 변경 필요
+  static const String baseUrl = "https://movies-api.nomadcoders.workers.dev";
 
   // 1. 가장 인기 있는 영화 가져오기
   static Future<List<MovieModel>> getPopularMovies() async {

@@ -63,7 +63,7 @@ class MainPage extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Text(
             sectionTitle,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
         ),
         SizedBox(
@@ -117,7 +117,10 @@ class MainPage extends StatelessWidget {
                       const SizedBox(height: 10), // 포스터와 제목 사이 간격
                       Text(
                         movie.title,
-                        style: const TextStyle(fontSize: 16), // 텍스트 크기 조정
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ), // 텍스트 크기 조정
                         maxLines: 1, // 텍스트 한 줄로 제한
                         overflow: TextOverflow.ellipsis, // 긴 제목은 생략
                       ),
