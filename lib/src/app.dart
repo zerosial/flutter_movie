@@ -56,8 +56,13 @@ class MyApp extends StatelessWidget {
 
                   // 영화 세부 정보 페이지 라우트
                   case '/movie-detail':
-                    final args = routeSettings.arguments as int; // 영화 ID 전달
-                    return MovieDetailPage(movieId: args);
+                    // arguments로 movieId와 heroTag를 모두 전달하도록 수정
+                    final args =
+                        routeSettings.arguments as Map<String, dynamic>;
+                    return MovieDetailPage(
+                      movieId: args['movieId'] as int,
+                      heroTag: args['heroTag'] as String, // heroTag 추가
+                    );
 
                   // 메인 페이지 기본 경로
                   default:

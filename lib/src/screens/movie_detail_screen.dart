@@ -4,8 +4,13 @@ import 'package:flutter_movie/src/services/api_service.dart';
 
 class MovieDetailPage extends StatelessWidget {
   final int movieId;
+  final String heroTag; // MainPage에서 전달된 고유한 Hero 태그
 
-  const MovieDetailPage({super.key, required this.movieId});
+  const MovieDetailPage({
+    super.key,
+    required this.movieId,
+    required this.heroTag,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +32,16 @@ class MovieDetailPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.network(
-                    'https://image.tmdb.org/t/p/w500/${movieDetail.posterPath}',
-                    height: 300,
+                  Hero(
+                    tag: heroTag, // MainPage에서 전달된 고유 태그 사용
+                    child: FadeInImage.assetNetwork(
+                      placeholder:
+                          'assets/images/placeholder.png', // 플레이스홀더 이미지
+                      image:
+                          'https://image.tmdb.org/t/p/w500/${movieDetail.posterPath}',
+                      height: 300,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                   const SizedBox(height: 16),
                   Text(

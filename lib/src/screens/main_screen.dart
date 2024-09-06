@@ -39,11 +39,12 @@ class MainPage extends StatelessWidget {
 
             return ListView(
               children: [
-                _buildMovieSection(context, 'Popular Movies', popularMovies),
                 _buildMovieSection(
-                    context, 'Now Playing Movies', nowPlayingMovies),
-                _buildMovieSection(
-                    context, 'Coming Soon Movies', comingSoonMovies),
+                    context, 'Popular Movies', popularMovies, 'popular'),
+                _buildMovieSection(context, 'Now Playing Movies',
+                    nowPlayingMovies, 'now_playing'),
+                _buildMovieSection(context, 'Coming Soon Movies',
+                    comingSoonMovies, 'coming_soon'),
               ],
             );
           }
@@ -53,16 +54,17 @@ class MainPage extends StatelessWidget {
     );
   }
 
-  Widget _buildMovieSection(
-      BuildContext context, String sectionTitle, List<MovieModel> movies) {
+  Widget _buildMovieSection(BuildContext context, String sectionTitle,
+      List<MovieModel> movies, String sectionTag) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(sectionTitle,
-              style:
-                  const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          child: Text(
+            sectionTitle,
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
         ),
         SizedBox(
           height: 200,
@@ -73,24 +75,26 @@ class MainPage extends StatelessWidget {
               final movie = movies[index];
               return GestureDetector(
                 onTap: () {
-                  // 영화 클릭 시 세부 정보 페이지로 이동
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => MovieDetailPage(movieId: movie.id),
+                      builder: (context) => MovieDetailPage(
+                        movieId: movie.id,
+                        heroTag: '$sectionTag-movie-${movie.id}', // 고유 태그
+                      ),
                     ),
                   );
                 },
-                child: Column(
-                  children: [
-                    Image.network(
-                      'https://image.tmdb.org/t/p/w200/${movie.posterPath}', // 영화 포스터 이미지
-                      height: 150,
-                      fit: BoxFit.cover,
-                    ),
-                    Text(movie.title,
-                        maxLines: 1, overflow: TextOverflow.ellipsis),
-                  ],
+                child: Hero(
+                  tag: '$sectionTag-movie-${movie.id}', // 고유 태그 설정
+                  child: FadeInImage.assetNetwork(
+                    placeholder:
+                        'assets/images/placeholder.png', // 이미지 로딩 전 보여줄 플레이스홀더
+                    image:
+                        'https://image.tmdb.org/t/p/w200/${movie.posterPath}',
+                    height: 150,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               );
             },
