@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_movie/src/models/movie_model.dart';
 import 'package:flutter_movie/src/screens/movie_detail_screen.dart';
 import 'package:flutter_movie/src/services/api_service.dart';
+import 'package:flutter_movie/src/settings/settings_view.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({super.key});
@@ -11,6 +12,14 @@ class MainPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Movies'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              Navigator.restorablePushNamed(context, SettingsView.routeName);
+            },
+          ),
+        ],
       ),
       body: FutureBuilder(
         future: Future.wait([
