@@ -7,7 +7,7 @@ import 'sample_feature/sample_item_list_view.dart';
 import 'settings/settings_controller.dart';
 import 'settings/settings_view.dart';
 
-/// The Widget that configures your application.
+/// 애플리케이션을 구성하는 위젯입니다.
 class MyApp extends StatelessWidget {
   const MyApp({
     super.key,
@@ -18,23 +18,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Glue the SettingsController to the MaterialApp.
+    // SettingsController를 MaterialApp에 연결합니다.
     //
-    // The ListenableBuilder Widget listens to the SettingsController for changes.
-    // Whenever the user updates their settings, the MaterialApp is rebuilt.
+    // ListenableBuilder 위젯은 SettingsController의 변경 사항을 듣습니다.
+    // 사용자가 설정을 업데이트할 때마다 MaterialApp이 다시 빌드됩니다.
     return ListenableBuilder(
       listenable: settingsController,
       builder: (BuildContext context, Widget? child) {
         return MaterialApp(
-          // Providing a restorationScopeId allows the Navigator built by the
-          // MaterialApp to restore the navigation stack when a user leaves and
-          // returns to the app after it has been killed while running in the
-          // background.
+          // restorationScopeId를 제공하면 MaterialApp에서 생성된 Navigator가
+          // 사용자가 앱을 종료하고 백그라운드에서 실행 중일 때 앱이 종료된 후
+          // 다시 돌아올 때 탐색 스택을 복원할 수 있습니다.
           restorationScopeId: 'app',
 
-          // Provide the generated AppLocalizations to the MaterialApp. This
-          // allows descendant Widgets to display the correct translations
-          // depending on the user's locale.
+          // 생성된 AppLocalizations를 MaterialApp에 제공합니다.
+          // 이를 통해 하위 위젯들이 사용자의 로케일에 따라 올바른 번역을 표시할 수 있습니다.
           localizationsDelegates: const [
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
@@ -42,26 +40,25 @@ class MyApp extends StatelessWidget {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [
-            Locale('en', ''), // English, no country code
+            Locale('en', ''), // 영어, 국가 코드 없음
           ],
 
-          // Use AppLocalizations to configure the correct application title
-          // depending on the user's locale.
+          // AppLocalizations를 사용하여 사용자의 로케일에 따라
+          // 올바른 애플리케이션 제목을 구성합니다.
           //
-          // The appTitle is defined in .arb files found in the localization
-          // directory.
+          // appTitle은 로컬라이제이션 디렉토리에서 찾을 수 있는 .arb 파일에 정의되어 있습니다.
           onGenerateTitle: (BuildContext context) =>
               AppLocalizations.of(context)!.appTitle,
 
-          // Define a light and dark color theme. Then, read the user's
-          // preferred ThemeMode (light, dark, or system default) from the
-          // SettingsController to display the correct theme.
+          // 라이트 및 다크 테마를 정의합니다. 그런 다음 사용자의
+          // 선호 테마 모드(라이트, 다크 또는 시스템 기본값)를
+          // SettingsController에서 읽어 올바른 테마를 표시합니다.
           theme: ThemeData(),
           darkTheme: ThemeData.dark(),
           themeMode: settingsController.themeMode,
 
-          // Define a function to handle named routes in order to support
-          // Flutter web url navigation and deep linking.
+          // Flutter 웹 URL 탐색 및 딥 링크를 지원하기 위해
+          // 네임드 라우트를 처리하는 함수를 정의합니다.
           onGenerateRoute: (RouteSettings routeSettings) {
             return MaterialPageRoute<void>(
               settings: routeSettings,
