@@ -67,33 +67,61 @@ class MainPage extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 200,
+          height: 450, // 전체 높이를 고정
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: movies.length,
             itemBuilder: (context, index) {
               final movie = movies[index];
-              return GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => MovieDetailPage(
-                        movieId: movie.id,
-                        heroTag: '$sectionTag-movie-${movie.id}', // 고유 태그
+              return Padding(
+                padding: const EdgeInsets.only(right: 16.0), // 오른쪽 간격 추가
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MovieDetailPage(
+                          movieId: movie.id,
+                          heroTag: '$sectionTag-movie-${movie.id}', // 고유 태그
+                        ),
                       ),
-                    ),
-                  );
-                },
-                child: Hero(
-                  tag: '$sectionTag-movie-${movie.id}', // 고유 태그 설정
-                  child: FadeInImage.assetNetwork(
-                    placeholder:
-                        'assets/images/placeholder.png', // 이미지 로딩 전 보여줄 플레이스홀더
-                    image:
-                        'https://image.tmdb.org/t/p/w200/${movie.posterPath}',
-                    height: 150,
-                    fit: BoxFit.cover,
+                    );
+                  },
+                  child: Column(
+                    children: [
+                      Hero(
+                        tag: '$sectionTag-movie-${movie.id}', // 고유 태그 설정
+                        child: Container(
+                          width: 300, // 가로 크기 고정
+                          height: 400, // 세로 크기 고정
+                          clipBehavior: Clip.hardEdge,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            boxShadow: [
+                              BoxShadow(
+                                blurRadius: 15,
+                                offset: const Offset(10, 10),
+                                color: Colors.black.withOpacity(0.3),
+                              )
+                            ],
+                          ),
+                          child: FadeInImage.assetNetwork(
+                            placeholder:
+                                'assets/images/placeholder.png', // 플레이스홀더 이미지
+                            image:
+                                'https://image.tmdb.org/t/p/w400/${movie.posterPath}',
+                            fit: BoxFit.cover, // 이미지를 컨테이너 안에 맞게 채우기
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10), // 포스터와 제목 사이 간격
+                      Text(
+                        movie.title,
+                        style: const TextStyle(fontSize: 16), // 텍스트 크기 조정
+                        maxLines: 1, // 텍스트 한 줄로 제한
+                        overflow: TextOverflow.ellipsis, // 긴 제목은 생략
+                      ),
+                    ],
                   ),
                 ),
               );
