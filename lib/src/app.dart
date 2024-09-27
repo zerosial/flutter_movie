@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
-import 'sample_feature/sample_item_details_view.dart';
-import 'sample_feature/sample_item_list_view.dart';
+import 'package:flutter_movie/src/screens/main_screen.dart';
+import 'package:flutter_movie/src/screens/movie_detail_screen.dart';
 import 'settings/settings_controller.dart';
 import 'settings/settings_view.dart';
 
-/// The Widget that configures your application.
+/// 애플리케이션을 구성하는 위젯입니다.
 class MyApp extends StatelessWidget {
   const MyApp({
     super.key,
@@ -18,23 +17,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Glue the SettingsController to the MaterialApp.
-    //
-    // The ListenableBuilder Widget listens to the SettingsController for changes.
-    // Whenever the user updates their settings, the MaterialApp is rebuilt.
     return ListenableBuilder(
       listenable: settingsController,
       builder: (BuildContext context, Widget? child) {
         return MaterialApp(
-          // Providing a restorationScopeId allows the Navigator built by the
-          // MaterialApp to restore the navigation stack when a user leaves and
-          // returns to the app after it has been killed while running in the
-          // background.
           restorationScopeId: 'app',
 
-          // Provide the generated AppLocalizations to the MaterialApp. This
-          // allows descendant Widgets to display the correct translations
-          // depending on the user's locale.
+          // 생성된 AppLocalizations를 MaterialApp에 제공합니다.
+          // 이를 통해 하위 위젯들이 사용자의 로케일에 따라 올바른 번역을 표시할 수 있습니다.
           localizationsDelegates: const [
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
@@ -42,26 +32,20 @@ class MyApp extends StatelessWidget {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [
-            Locale('en', ''), // English, no country code
+            Locale('en', ''), // 영어, 국가 코드 없음
           ],
 
-          // Use AppLocalizations to configure the correct application title
-          // depending on the user's locale.
-          //
-          // The appTitle is defined in .arb files found in the localization
-          // directory.
+          // AppLocalizations를 사용하여 사용자의 로케일에 따라
+          // 올바른 애플리케이션 제목을 구성합니다.
+          // appTitle은 로컬라이제이션 디렉토리에서 찾을 수 있는 .arb 파일에 정의되어 있습니다.
           onGenerateTitle: (BuildContext context) =>
               AppLocalizations.of(context)!.appTitle,
-
-          // Define a light and dark color theme. Then, read the user's
-          // preferred ThemeMode (light, dark, or system default) from the
-          // SettingsController to display the correct theme.
           theme: ThemeData(),
           darkTheme: ThemeData.dark(),
           themeMode: settingsController.themeMode,
 
-          // Define a function to handle named routes in order to support
-          // Flutter web url navigation and deep linking.
+          // Flutter 웹 URL 탐색 및 딥 링크를 지원하기 위해
+          // 네임드 라우트를 처리하는 함수를 정의합니다.
           onGenerateRoute: (RouteSettings routeSettings) {
             return MaterialPageRoute<void>(
               settings: routeSettings,
@@ -69,11 +53,20 @@ class MyApp extends StatelessWidget {
                 switch (routeSettings.name) {
                   case SettingsView.routeName:
                     return SettingsView(controller: settingsController);
-                  case SampleItemDetailsView.routeName:
-                    return const SampleItemDetailsView();
-                  case SampleItemListView.routeName:
+
+                  // 영화 세부 정보 페이지 라우트
+                  case '/movie-detail':
+                    // arguments로 movieId와 heroTag를 모두 전달하도록 수정
+                    final args =
+                        routeSettings.arguments as Map<String, dynamic>;
+                    return MovieDetailPage(
+                      movieId: args['movieId'] as int,
+                      heroTag: args['heroTag'] as String, // heroTag 추가
+                    );
+
+                  // 메인 페이지 기본 경로
                   default:
-                    return const SampleItemListView();
+                    return const MainPage();
                 }
               },
             );

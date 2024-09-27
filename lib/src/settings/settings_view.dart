@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'settings_controller.dart';
 
-/// Displays the various settings that can be customized by the user.
-///
-/// When a user changes a setting, the SettingsController is updated and
-/// Widgets that listen to the SettingsController are rebuilt.
+/// 사용자가 사용자 정의할 수 있는 다양한 설정을 표시합니다.
+/// 사용자가 설정을 변경하면 SettingsController가 업데이트되고
+/// SettingsController를 듣는 위젯들이 다시 빌드됩니다.
 class SettingsView extends StatelessWidget {
   const SettingsView({super.key, required this.controller});
 
@@ -21,14 +20,8 @@ class SettingsView extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
-        // Glue the SettingsController to the theme selection DropdownButton.
-        //
-        // When a user selects a theme from the dropdown list, the
-        // SettingsController is updated, which rebuilds the MaterialApp.
         child: DropdownButton<ThemeMode>(
-          // Read the selected themeMode from the controller
           value: controller.themeMode,
-          // Call the updateThemeMode method any time the user selects a theme.
           onChanged: controller.updateThemeMode,
           items: const [
             DropdownMenuItem(
